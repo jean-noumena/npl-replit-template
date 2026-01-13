@@ -172,8 +172,21 @@ REALM_CONFIG=$(curl -s -X GET "${KEYCLOAK_URL}/admin/realms/${REALM}" \
 
 # Update browser security headers to allow framing from Replit
 # Set Content-Security-Policy frame-ancestors to allow Replit domains
-UPDATED_REALM=$(echo "$REALM_CONFIG" | jq '
-    .browserSecurityHeaders.contentSecurityPolicy = "frame-src '\''self'\''; frame-ancestors '\''self'\'' https://*.replit.dev https://*.worf.replit.dev https://*.repl.co http://localhost:*; object-src '\''none'\'';" |
+# IMPORTANT: Must include replit.com (the main UI) AND replit.dev (the preview)
+
+# Base CSP with all Replit patterns
+CSP_FRAME_ANCESTORS="'self' https://replit.com https://*.replit.com https://*.replit.dev https://*.worf.replit.dev https://*.picard.replit.dev https://*.kirk.replit.dev https://*.repl.co http://localhost:*"
+
+# Add specific detected Replit host if available (wildcards don't always match)
+if [ -n "$DETECTED_REPLIT_HOST" ]; then
+    CSP_FRAME_ANCESTORS="$CSP_FRAME_ANCESTORS https://${DETECTED_REPLIT_HOST}"
+    echo "   Adding specific host to CSP: $DETECTED_REPLIT_HOST"
+fi
+
+NEW_CSP="frame-src 'self'; frame-ancestors ${CSP_FRAME_ANCESTORS}; object-src 'none';"
+
+UPDATED_REALM=$(echo "$REALM_CONFIG" | jq --arg csp "$NEW_CSP" '
+    .browserSecurityHeaders.contentSecurityPolicy = $csp |
     .browserSecurityHeaders.xFrameOptions = ""
 ')
 
