@@ -7,11 +7,6 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
-    // Allow Replit and all other hosts
-    allowedHosts: ['.replit.dev', '.repl.co', '.worf.replit.dev', 'localhost'],
-    hmr: {
-      // Disable HMR host check
-      host: '0.0.0.0',
-    },
+    allowedHosts: true,
   },
 })
