@@ -6,6 +6,27 @@ Build React frontends on Replit that connect to NPL backends running on [Noumena
 ![React](https://img.shields.io/badge/React-19-61dafb)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178c6)
 
+## 📥 Use This Template
+
+### Option 1: From GitHub (Recommended)
+
+1. Go to [Replit](https://replit.com)
+2. Click **Create Repl** → **Import from GitHub**
+3. Paste this URL: `https://github.com/jk-nd/npl-replit-template`
+4. Click **Import from GitHub**
+
+### Option 2: Fork on GitHub First
+
+1. Fork this repository on GitHub
+2. In Replit, click **Create Repl** → **Import from GitHub**
+3. Select your forked repository
+
+### Option 3: Use as Replit Template
+
+If this is published as a Replit template, simply click **Use Template**.
+
+---
+
 ## 🚀 Quick Start
 
 ### 1. Configure Secrets
@@ -80,9 +101,12 @@ Click **Run** to start the React dev server!
 ```
 ├── .replit              # Replit configuration
 ├── replit.nix           # System dependencies
-├── replit.md            # AI Agent context (NPL documentation)
+├── replit.md            # AI Agent workflow instructions
 ├── Makefile             # Setup commands
 ├── package.json         # Frontend dependencies
+│
+├── docs/
+│   └── NPL_DEVELOPMENT.md   # Complete NPL reference (for AI Agent)
 │
 ├── scripts/
 │   ├── setup-env.sh          # Generate .env from tenant/app
@@ -246,6 +270,16 @@ await client.action('Iou', iou['@id'], 'pay', { amount: 50 });
 // List instances
 const ious = await client.list('Iou', { state: 'unpaid' });
 ```
+
+## 🤖 For AI Agents (Replit Agent)
+
+This template is designed to work with Replit Agent. The agent should:
+
+1. **Read `docs/NPL_DEVELOPMENT.md` first** - Contains complete NPL syntax, types, and API reference
+2. **Design backend (NPL) before frontend** - The frontend depends on the generated API
+3. **Use `@actions` array** - Shows what the current user can do on each protocol instance
+
+The `replit.md` file contains workflow instructions. The comprehensive NPL documentation is in `docs/NPL_DEVELOPMENT.md` to prevent accidental overwriting.
 
 ## 📚 Resources
 
