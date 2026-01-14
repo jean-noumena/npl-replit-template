@@ -50,15 +50,30 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "Step 4/5: Deploying NPL to Noumena Cloud"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "🔐 You may be prompted to log in to Noumena Cloud..."
-echo ""
 
 # Check NPL code first
 echo "✅ Checking NPL code..."
 npl check --source-dir ./npl/src/main
+echo ""
 
-# Deploy NPL
-./scripts/deploy-to-cloud.sh
+# Try to deploy - if it fails due to auth, prompt for login
+echo "☁️  Deploying to Noumena Cloud..."
+if ! ./scripts/deploy-to-cloud.sh 2>&1; then
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "🔐 Authentication required!"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    echo "Please log in to Noumena Cloud first:"
+    echo ""
+    echo "   npl cloud login"
+    echo ""
+    echo "Then run setup again:"
+    echo ""
+    echo "   make setup"
+    echo ""
+    exit 1
+fi
 echo ""
 
 # Step 5: Generate client
@@ -72,7 +87,11 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "✅ Setup complete!"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "🚀 Click 'Run' to start your React frontend!"
+echo "📝 Next steps:"
+echo ""
+echo "   1. Provision test users:  make users"
+echo "   2. Configure Keycloak:    make keycloak"
+echo "   3. Click 'Run' to start your React frontend!"
 echo ""
 echo "📖 Your app will connect to:"
 echo "   NPL Engine: $VITE_NPL_ENGINE_URL"
