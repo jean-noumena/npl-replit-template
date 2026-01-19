@@ -1,84 +1,213 @@
 # NPL + React Replit Template
 # Build frontends on Replit that connect to Noumena Cloud
 
-run = "cd frontend && npm run dev"
+run = "cd frontend && npm i && npm run dev"
 entrypoint = "frontend/src/App.tsx"
 
 hidden = [".config", "node_modules", ".git", "dist"]
+modules = ["nodejs-20", "bash", "web"]
 
 [nix]
-channel = "stable-24_05"
+channel = "stable-25_05"
 
 [env]
 PATH = "/home/runner/.npl/bin:${PATH}"
 
-# Expose the dev server port
 [[ports]]
 localPort = 5173
 externalPort = 80
 
 [deployment]
-run = ["sh", "-c", "cd frontend && npm run build && npm run preview"]
+run = ["sh", "-c", "cd frontend && npm i && npm run build && npm run preview"]
 
-# Workflow buttons for common tasks
+[agent]
+expertMode = true
+
 [workflows]
+runButton = "Project"
 
-[workflows.setup]
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start Dev Server"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "🚀 Full Setup"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "⚙️ Generate Environment"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "📦 Install Dependencies"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "☁️ Deploy to Cloud"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "🔄 Generate API Client"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "👥 Provision Users"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "🔑 Configure Keycloak"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "🏗️ Build Production"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "✅ Validate NPL"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "🧪 Run Tests"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "🧹 Clean"
+
+[[workflows.workflow]]
+name = "Start Dev Server"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm i && npm run dev -- --host 0.0.0.0"
+waitForPort = 5173
+
+[[workflows.workflow]]
 name = "🚀 Full Setup"
-description = "Complete setup: env + install + deploy + client"
-command = "make setup"
+author = "agent"
 
-[workflows.env]
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make setup"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
 name = "⚙️ Generate Environment"
-description = "Generate .env from NPL_TENANT and NPL_APP"
-command = "make env"
+author = "agent"
 
-[workflows.install]
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make env"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
 name = "📦 Install Dependencies"
-description = "Install NPL CLI and npm dependencies"
-command = "make install"
+author = "agent"
 
-[workflows.deploy]
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make install"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
 name = "☁️ Deploy to Cloud"
-description = "Deploy NPL protocols to Noumena Cloud"
-command = "make deploy"
+author = "agent"
 
-[workflows.client]
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make deploy"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
 name = "🔄 Generate API Client"
-description = "Generate TypeScript API client from OpenAPI"
-command = "make client"
+author = "agent"
 
-[workflows.users]
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make client"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
 name = "👥 Provision Users"
-description = "Provision seed users in Keycloak"
-command = "make users"
+author = "agent"
 
-[workflows.keycloak]
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make users"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
 name = "🔑 Configure Keycloak"
-description = "Configure Keycloak client (redirect URIs)"
-command = "make keycloak"
+author = "agent"
 
-[workflows.run]
-name = "▶️ Start Dev Server"
-description = "Start the development server"
-command = "make run"
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make keycloak"
 
-[workflows.build]
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
 name = "🏗️ Build Production"
-description = "Build frontend for production"
-command = "make build"
+author = "agent"
 
-[workflows.check]
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make build"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
 name = "✅ Validate NPL"
-description = "Validate NPL code syntax and types"
-command = "make check"
+author = "agent"
 
-[workflows.test]
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make check"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
 name = "🧪 Run Tests"
-description = "Run NPL tests"
-command = "make test"
+author = "agent"
 
-[workflows.clean]
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make test"
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
 name = "🧹 Clean"
-description = "Clean generated files and dependencies"
-command = "make clean"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "make clean"
+
+[workflows.workflow.metadata]
+outputType = "console"
