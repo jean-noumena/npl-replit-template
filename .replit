@@ -1,7 +1,7 @@
 # NPL + React Replit Template
 # Build frontends on Replit that connect to Noumena Cloud
 
-run = "cd frontend && npm run dev"
+run = "cd frontend && npm i && npm run dev"
 entrypoint = "frontend/src/App.tsx"
 
 hidden = [".config", "node_modules", ".git", "dist"]
