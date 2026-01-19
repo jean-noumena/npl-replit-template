@@ -18,7 +18,7 @@ localPort = 5173
 externalPort = 80
 
 [deployment]
-run = ["sh", "-c", "cd frontend && npm run build && npm run preview"]
+run = ["sh", "-c", "cd frontend && npm i && npm run build && npm run preview"]
 
 [agent]
 expertMode = true
@@ -88,7 +88,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd frontend && npm run dev -- --host 0.0.0.0"
+args = "cd frontend && npm i && npm run dev -- --host 0.0.0.0"
 waitForPort = 5173
 
 [[workflows.workflow]]
